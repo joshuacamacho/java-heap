@@ -73,20 +73,37 @@ public class Heap {
          }         
          for(int i=0; i<vals.length; i++){
              insert(vals[i]);
-         } 
+         }
+         System.out.print("\n");
+         System.out.print("Heap built using series of insertions: ");
          print(heap,10);
-         System.out.println("\nNumber of swaps: " + swapCount);
+         System.out.println("Number of swaps: " + swapCount);
+         position = heap.length-1;
+         for(int i=0; i<10; i++){
+             pop();
+         }
+         System.out.print("Heap After 10 removals: ");
+         print(heap,10);
+         
+         
+         System.out.print("\n");
          //optimal method
         heap = null;
         heap = vals;
         
         optimalHeapify();
+        System.out.print("Heap built using series of insertions: ");
         print(heap,10);
-       
-       
+        System.out.println("Number of swaps: "+ optimalSwapCount);
+        position = heap.length-1;
+         for(int i=0; i<10; i++){
+             pop();
+         }
+       System.out.print("Heap After 10 removals: ");
+         print(heap,10);
        
        //optimal method
-       System.out.println("Number of swaps: "+ optimalSwapCount);
+       
     }
 
     private static void randomGen() {
@@ -207,6 +224,32 @@ public class Heap {
          maxHeapify(largest);
         }
         
+    }
+
+    private static void pop() {
+        int current = 0;
+        heap[0] = heap[position];
+        position--;
+        
+        while((current*2 +2)<=position){
+            if(heap[current] < heap[current*2 + 1] || heap[current] < heap[current*2 + 2]){
+           
+                int offset;
+                if(heap[current*2+1] > heap[current*2 +2]) {
+                    offset = 1;
+                }else{
+                    offset = 2;
+                }
+
+                heap[current] = heap[current] ^ heap[current*2+offset];
+                heap[current*2 +offset] = heap[current] ^ heap[current*2+offset];
+                heap[current] =heap[current] ^ heap[current*2+offset];
+                current = current*2 +offset;
+            }else{
+                break;
+            }
+           
+        }
     }
     
     
